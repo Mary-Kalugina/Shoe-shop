@@ -5,16 +5,20 @@ import Banner from "../Banner";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { itemData } from "../../api/Requests";
-import { setCart } from '../../toolkit/toolkitSlice';
+import { setCartToolkit, setActiveTab } from '../../toolkit/toolkitSlice';
+import Loader from "./Loader";
 
 
 const ProductPage = () => {
 const [availableSizes, setSizes ] = useState([]);
 const [chosenSize, setChoise] = useState('');
 const [quantity, setQuantity] = useState(1);
-const id = useSelector(state => state.toolkit.id);
 const [item, setItem] = useState({});
 const [isLoading, setIsLoading] = useState(false);
+
+const id = useSelector(state => state.toolkit.id);
+const cart = useSelector(state => state.toolkit.cart)
+
 const dispatch = useDispatch();
 
 
@@ -57,13 +61,10 @@ const decreaseQuantity = () => {
         quantity: quantity,
         size: chosenSize
     };
-    const existingValue = localStorage.getItem('cart');
 
-    if (existingValue) {
-        const parsedValue = JSON.parse(existingValue);
+    if (cart) {
         let itemFound = false;
-    
-        const updatedCart = parsedValue.map((cartItem) => {
+        const updatedCart = cart.map((cartItem) => {
           if (cartItem.id === data.id && cartItem.size === chosenSize) {
             itemFound = true;
             return {
@@ -77,28 +78,18 @@ const decreaseQuantity = () => {
             updatedCart.push(data);
         }
 
-        localStorage.setItem('cart', JSON.stringify(updatedCart)); 
-        dispatch(setCart(updatedCart))
+        dispatch(setCartToolkit(updatedCart))
     } else {
-        localStorage.setItem('cart', JSON.stringify([data]));
-        dispatch(setCart([data]))
+        dispatch(setCartToolkit([data]))
     }
   }
-
-    return(
-       <>
+    return(<>
    <Header/>  
     <main className="container">
-        <div className="row">
+        <div className="row product_page">
             <div className="col">
                <Banner/>
-               {isLoading ?
-                    <div className="preloader">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div> :
+               {isLoading ? <Loader/> :
                 <section className="catalog-item">
                     <h2 className="text-center">{item.title}</h2>
                     <div className="row">
@@ -142,14 +133,14 @@ const decreaseQuantity = () => {
                                     </span>
                                     )) : null}</p>
                                     <p>Количество: {availableSizes?.length ? (
-                                    <span className="btn-group btn-group-sm pl-2">
-                                    <button className="btn btn-secondary" onClick={decreaseQuantity}>-</button>
-                                    <span className="btn btn-outline-primary">{quantity}</span>
-                                    <button className="btn btn-secondary" onClick={increaseQuantity}>+</button>
+                                    <span className="controll-group">
+                                    <button className="number-controller" onClick={decreaseQuantity}>-</button>
+                                    <span className="product-number">{quantity}</span>
+                                    <button className="number-controller" onClick={increaseQuantity}>+</button>
                                     </span>
                                     ) : null}</p>
                                 </div>
-                                {availableSizes?.length ? <Link to="/cart.html"><button disabled={!chosenSize} className="btn btn-danger btn-block btn-lg" onClick={() => putToStorage(item)}>В корзину</button></Link> : null}
+                                {availableSizes?.length ? <Link to="/cart.html"><button disabled={!chosenSize} className="btn btn-danger btn-block btn-lg" onClick={() => {putToStorage(item); dispatch(setActiveTab(''))}}>В корзину</button></Link> : null}
                             </div>
                         </div>
                     </section>}

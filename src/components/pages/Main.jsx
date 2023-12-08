@@ -13,7 +13,7 @@ const Main = () => {
                 <div className="col">
                     <Banner />
                     <Hits />
-                    <Catalog />
+                    <Catalog form={false} />
                 </div>
             </div>
         </main>

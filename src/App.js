@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import './index.css';
 import Cart from './components/pages/Cart';
 import Catalog from './components/pages/CatalogPage';
 import Page404 from './components/pages/404';

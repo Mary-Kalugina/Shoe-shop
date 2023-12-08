@@ -2,7 +2,8 @@ import React from "react";
 import { topSales } from "../api/Requests";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setTopSales, showItem } from '../toolkit/toolkitSlice';
+import { setTopSales, showItem, setActiveTab } from '../toolkit/toolkitSlice';
+import Loader from "./pages/Loader";
 
 const Hits = () => {
     const topItems = useSelector(state => state.toolkit.topSales);
@@ -32,17 +33,12 @@ const Hits = () => {
                         <div className="card-body">
                             <p className="card-text">{item.title}</p>
                             <p className="card-text">{item.price}</p>
-                            <Link to={`/catalog/${item.id}.html`} onClick={() => dispatch(showItem(item.id))} className="btn btn-outline-primary">Заказать</Link>
+                            <Link to={`/catalog/${item.id}.html`} onClick={() => {dispatch(showItem(item.id)); dispatch(setActiveTab(''))}} className="btn btn-outline-primary">Заказать</Link>
                         </div>
                         </div>
                     </div>))}
                 </div> 
-            : <div className="preloader">
-               <span></span>
-               <span></span>
-               <span></span>
-               <span></span>
-             </div>}
+            : <Loader/>}
       </section>
     )
 }

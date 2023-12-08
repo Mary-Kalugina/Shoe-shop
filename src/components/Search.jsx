@@ -20,7 +20,7 @@ const Search = () => {
       
       function handleSearch() {
         find(text)
-        .then(data => setCatalogItems(data))
+        .then(data => {setCatalogItems(data); console.log(data)})
         .catch(error => {
           console.error('Ошибка при поиске товаров:', error);
         });;
@@ -34,8 +34,12 @@ const Search = () => {
         delayedSearch(searchText);
       };
 
+      const handleSubmit = (e) => {
+        e.preventDefault();
+      };
+// console.log(1)
     return( 
-        <form className="catalog-search-form form-inline">
+        <form className="catalog-search-form form-inline" onSubmit={handleSubmit}>
             <input value={text} className="form-control" placeholder="Поиск" onChange={(e) => handleChange(e)}/> 
         </form> 
     )

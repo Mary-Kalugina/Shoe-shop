@@ -1,50 +1,49 @@
 import Banner from "../Banner";
 import React, {useEffect, useState} from "react";
+import Loader from "./Loader";
 import { Link } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 import postOrder from "../../api/Requests";
 import Footer from "../Footer";
+import { setCartToolkit } from '../../toolkit/toolkitSlice';
 
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [phone, setPhone] = useState('');
   const [adress, setAdress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [orderDone, setOrderDone] = useState(false);
   const [error, setError] = useState(false);
+  // const [cart, setCart] = useState([]);
+  const cart = useSelector(state => state.toolkit.cart);
 
-  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    total();
+  }, [cart])
+// Галочка согласия обработки персональных данных
 
   const handleAgreementChange = (e) => {
     setAgreementChecked(e.target.checked);
   };
 
-  useEffect(() => {
-    updateCart();
-  }, []);
-
-  const updateCart = () => {
-    setIsLoading(true);
-    const cartData = JSON.parse(localStorage.getItem('cart'));
-    setCart(cartData || []);   
-    total();
-    setIsLoading(false);
-  }
+// Подсчет итого
 
   const total = () => {
     const total = cart.reduce((accumulator, item) => accumulator + item.price * item.quantity, 0);
     setTotalPrice(total);
   }
 
+// Удалить товар
+
   const deleteItem = (id) => {
     const newCart = cart.filter(item => item.id !== id);
-    localStorage.setItem('cart', JSON.stringify(newCart));
-    setCart(newCart);
-    total();
+    dispatch(setCartToolkit(newCart))  
   } 
+
+// Отправить заказ
 
   const sendOrder = () => {
     setIsLoading(true);
@@ -55,17 +54,16 @@ const Cart = () => {
         address: adress,
       },
       items: cart?.map((item) => ({
-        id: item.id,
-        price: item.price,
-        count: item.quantity,
+        id: Number(item.id),
+        price: Number(item.price),
+        count: Number(item.quantity),
       })),
     };
     // console.log(orderBody)
 
     postOrder(orderBody)
       .then(() => {
-        localStorage.removeItem('cart');
-        setCart([]);
+        dispatch(setCartToolkit([]))
         console.log(2)
         total();
         setIsLoading(false);
@@ -79,94 +77,68 @@ const Cart = () => {
       });
   };
   
-  // console.log(cart)
     return(<>
     <Header/>
     <main className="container">
       <div className="row">
         <div className="col">
           <Banner/>
+          <h2 className="text-center">Корзина</h2>
           <section className="cart">
-            <h2 className="text-center">Корзина</h2>
             <table className="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Название</th>
-      <th scope="col">Размер</th>
-      <th scope="col">Кол-во</th>
-      <th scope="col">Стоимость</th>
-      <th scope="col">Итого</th>
-      <th scope="col">Действия</th>
-    </tr>
-  </thead>
-  <tbody>
-    {isLoading ? (
-      <tr>
-        <td colSpan="7">
-          <div className="preloader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </td>
-      </tr>
-    ) : orderDone ? (
-      <tr>
-        <td colSpan="7">
-          <h2 className="text-center">Заказ успешно оформлен!</h2>
-        </td>
-      </tr>
-    ) : error ? (
-      <tr>
-        <td colSpan="7">
-          <h2 className="text-center">Ошибка, попробуйте снова</h2>
-        </td>
-      </tr>
-    ) : (
-      cart?.map((item, index) => (
-        <tr key={item.id}>
-          <td scope="row">{index + 1}</td>
-          <td>
-            <Link to={`/products/${item.id}.html`}>{item.title}</Link>
-          </td>
-          <td>{item.size} размер</td>
-          <td>{item.quantity} кол-во</td>
-          <td>{item.price}</td>
-          <td>{item.price * item.quantity} итого</td>
-          <td>
-            <button
-              className="btn btn-outline-danger btn-sm"
-              onClick={() => deleteItem(item.id)}
-            >
-              Удалить
-            </button>
-          </td>
-        </tr>
-      ))
-    )}
-    <tr>
-      <td colSpan="5" className="text-right">
-        Общая стоимость
-      </td>
-      <td>{totalPrice}</td>
-    </tr>
-  </tbody>
-</table>
-
+              <tbody>
+                {isLoading 
+                ? (<tr>
+                      <td colSpan="7">
+                        <Loader/>
+                      </td>
+                    </tr>) 
+                : orderDone
+                ? (<h2 className="text-center">Заказ успешно оформлен!</h2>)
+                : error ? (<h2 className="text-center">Ошибка, попробуйте снова</h2>)
+                : cart.length === 0 ? (<h2 className="text-center">Корзина пуста</h2>)
+                : (
+                  cart.map((item, index) => (
+                    <tr key={item.id}>
+                      <td scope="row">{index + 1}</td>
+                      <td>
+                        <Link to={`/products/${item.id}.html`}>{item.title}</Link>
+                      </td>
+                      <td>{item.size} размер</td>
+                      <td>{item.quantity} кол-во</td>
+                      <td>{item.price}</td>
+                      <td>{item.price * item.quantity} итого</td>
+                      <td>
+                        <button
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={() => deleteItem(item.id)}
+                        >
+                          Удалить
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+                <tr>
+                <td colSpan="5" className="text-right">
+                    Общая стоимость
+                  </td>
+                  <td>{totalPrice}</td>
+                </tr>
+              </tbody>
+            </table>
           </section>
-          <section className="order">
+          {cart.length !== 0 ? (<section className="order">
             <h2 className="text-center">Оформить заказ</h2>
-            <div className="card" style={{ maxWidth: '30rem', margin: '0 auto' }}>
-              <form className="card-body">
-                <div className="form-group">
+            <div className="order_card" style={{ maxWidth: '30rem', margin: '0 auto' }}>
+              <form className="order-body">
+                <div className="form-group" onSubmit={(e) => {e.preventDefault(); sendOrder()}}>
                   <label htmlFor="phone">Телефон</label>
-                  <input className="form-control" id="phone" placeholder="Ваш телефон" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                  <input className="form-control" id="phone" placeholder="Ваш телефон" value={phone} onChange={(e) => setPhone(String(e.target.value))}/>
                 </div>
                 <div className="form-group">
                   <label htmlFor="address">Адрес доставки</label>
-                  <input className="form-control" id="address" placeholder="Адрес доставки" value={adress} onChange={(e) => setAdress(e.target.value)}/>
+                  <input className="form-control" id="address" placeholder="Адрес доставки" value={adress} onChange={(e) => setAdress(String(e.target.value))}/>
                 </div>
                 <div>
                   <div className="form-group form-check">
@@ -178,13 +150,14 @@ const Cart = () => {
                     />
                     <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
                   </div>
-                  <button type="submit" className="btn btn-outline-secondary" disabled={!agreementChecked} onClick={sendOrder}>
+                  <button type="submit" className="btn btn-outline-primary" disabled={!agreementChecked} onClick={sendOrder}>
                     Оформить
                   </button>
                 </div>
               </form>
             </div>
           </section>
+          ) : null}
         </div>
       </div>
     </main>

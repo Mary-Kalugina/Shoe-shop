@@ -6,7 +6,8 @@ const initialState = {
   cart: [],
   id: 0,
   categories: [],
-  topSales: []
+  topSales: [],
+  activeTab: 'Главная'
 };
 
 const toolkitSlice = createSlice({
@@ -19,7 +20,7 @@ const toolkitSlice = createSlice({
     setSearchValue(state, action) {
       state.searchText = action.payload;
     },
-    setCart(state, action) {
+    setCartToolkit(state, action) {
       state.cart = action.payload;
     },
     showItem(state, action) {
@@ -27,9 +28,15 @@ const toolkitSlice = createSlice({
     }, 
     setTopSales(state, action) {
       state.topSales = action.payload;
-    }
+    },
+    setActiveTab(state, action) {
+      state.activeTab = action.payload;
+    },
+    setCategoriesArr(state, action) {
+      state.categories = action.payload;
+    },
   }
 });
 
 export default toolkitSlice.reducer;
-export const { setCatalogItems, setSearchValue, setCart, showItem, setTopSales } = toolkitSlice.actions;
+export const { setCatalogItems, setSearchValue, setCartToolkit, showItem, setTopSales, setActiveTab, setCategoriesArr } = toolkitSlice.actions;
