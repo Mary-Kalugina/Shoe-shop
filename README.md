@@ -58,4 +58,4 @@
     npm run watch
 
 ![магазин]('')
-![машгазин]('')
+![магазин]('https://github.com/Mary-Kalugina/Shoe-shop/blob/main/index-loaded.png')
