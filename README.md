@@ -58,5 +58,5 @@
     npm run watch
 
    
-![магазин]('https://github.com/Mary-Kalugina/Shoe-shop/index-loaded.png')
-![магазин]('https://github.com/Mary-Kalugina/Shoe-shop/catalog-item.png')
+![магазин](https://github.com/Mary-Kalugina/Shoe-shop/index-loaded.png)
+![магазин](https://github.com/Mary-Kalugina/Shoe-shop/catalog-item.png)
