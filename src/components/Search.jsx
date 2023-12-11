@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchValue, setCatalogItems } from '../toolkit/toolkitSlice';
+import { setSearchValue } from '../toolkit/toolkitSlice';
+import {setCatalogItems} from '../toolkit/catalogSlice'
 import { find } from "../api/Requests";
 
 const Search = () => {
@@ -17,10 +18,10 @@ const Search = () => {
           }, delay);
         };
       }
-      
+
       function handleSearch() {
         find(text)
-        .then(data => {setCatalogItems(data); console.log(data)})
+        .then(data => dispatch(setCatalogItems(data)))
         .catch(error => {
           console.error('Ошибка при поиске товаров:', error);
         });;
@@ -37,8 +38,8 @@ const Search = () => {
       const handleSubmit = (e) => {
         e.preventDefault();
       };
-// console.log(1)
-    return( 
+
+      return( 
         <form className="catalog-search-form form-inline" onSubmit={handleSubmit}>
             <input value={text} className="form-control" placeholder="Поиск" onChange={(e) => handleChange(e)}/> 
         </form> 

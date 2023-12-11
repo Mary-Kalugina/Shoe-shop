@@ -11,7 +11,6 @@ const Header = () => {
     const activeTab = useSelector(state => state.toolkit.activeTab);
     const itemsNumber = cart.length;
 
-    console.log('head')
 // Следит за кликами по иконке поиска
 
     const handleSearchIconClick = () => {
@@ -65,14 +64,20 @@ const Header = () => {
                 </ul>
             </div>
             <div className="header-controls-pics">
-                <form data-id="search-form" className={`header-controls-search-form form-inline ${searchVisible ? '' : 'invisible'}`}>
+                <form data-id="search-form" className={`header-controls-search-form form-inline ${searchVisible ? '' : 'invisible'}`} >
                     <input value={searchText} className="form-control" placeholder="Поиск" onChange={(e) => handleSearchInputChange(e)} />
                 </form>
                 <div 
                     data-id="search-expander" 
                     className="header-controls-pic header-controls-search"
-                    onClick={handleSearchIconClick}
-                ></div>
+                    onClick={() => {
+                        if (searchVisible && searchText) {
+                            dispatch(setActiveTab('Каталог'));
+                            window.location.href = "/catalog.html";
+                        }
+                        handleSearchIconClick(); 
+                    }}>
+                </div>
                 <Link to='/cart.html'><div className="header-controls-pic header-controls-cart" onClick={() => dispatch(setActiveTab(''))}>
                     {itemsNumber ? <div className="header-controls-cart-full">{itemsNumber}</div> : null}
                     <div className="header-controls-cart-menu"></div>

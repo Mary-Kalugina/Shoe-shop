@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  items: [],
   searchText: '',
   cart: [],
   id: 0,
@@ -14,9 +13,6 @@ const toolkitSlice = createSlice({
   name: 'toolkit',
   initialState,
   reducers: {
-    setCatalogItems(state, action) {
-        state.items = action.payload;
-    },
     setSearchValue(state, action) {
       state.searchText = action.payload;
     },
@@ -39,4 +35,4 @@ const toolkitSlice = createSlice({
 });
 
 export default toolkitSlice.reducer;
-export const { setCatalogItems, setSearchValue, setCartToolkit, showItem, setTopSales, setActiveTab, setCategoriesArr } = toolkitSlice.actions;
+export const { setSearchValue, setCartToolkit, showItem, setTopSales, setActiveTab, setCategoriesArr } = toolkitSlice.actions;

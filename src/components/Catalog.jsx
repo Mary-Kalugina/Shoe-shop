@@ -2,20 +2,22 @@ import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { items, categoryItems, categories } from "../api/Requests";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveTab, setCatalogItems, showItem, setCategoriesArr } from '../toolkit/toolkitSlice';
+import { setActiveTab, showItem, setCategoriesArr } from '../toolkit/toolkitSlice';
+import {setCatalogItems} from '../toolkit/catalogSlice';
 import Search from "./Search";
 import Loader from "./pages/Loader";
 
 const Catalog = ({form}) => {
-    const renderItemsNumber = 0;
+    let renderItemsNumber = 0;
     const [selectedCategory, setSelectedCategory] = useState("11");
     const [offset, setOffset] = useState(renderItemsNumber);
     const [isLoading, setIsLoading] = useState(false);
     const [moreItems, setmoreItems] = useState(true);
 
-    const catalogItems = useSelector(state => state.toolkit.items);
+    const catalogItems = useSelector(state => state.catalog.items);
     const categoriesArr = useSelector(state => state.toolkit.categories);
     const dispatch = useDispatch();
+    let itemsToLoad = 6;
 
     const all_id = '11';
 
@@ -25,9 +27,12 @@ const Catalog = ({form}) => {
       }
       
       loadCatalogItems();
+      return () => {
+        dispatch(setCatalogItems([]))
+      }
     }, [selectedCategory, offset]);
     
-
+console.log()
     const loadCategories = () => {
       if (categoriesArr.length === 0) {
         categories()
@@ -39,21 +44,29 @@ const Catalog = ({form}) => {
         });
       }
     }
-    
       const loadCatalogItems = () => {
         setIsLoading(true);
         let fetchDataPromise;
       
-        if (selectedCategory === all_id) {
+        if (selectedCategory === all_id) { // если категория все
           fetchDataPromise = items(offset);
-        } else {
+        } else if (selectedCategory === 15 || selectedCategory === 12) { //для категорий мужская и детская обувь 
+          itemsToLoad = 4; //почему 4 - непонятно. так лучше с сервера заргужаются с сервера тк товаров мало
+          // setOffset(4);
+          fetchDataPromise = categoryItems(selectedCategory, 4);
+        }
+        else { // если выбрана конкретная категория
           fetchDataPromise = categoryItems(selectedCategory, offset);
         }
-      
         fetchDataPromise
           .then(data => {
-            setmoreItems(data.length > 0 && data.length % 6 === 0 ? true : false);
-            dispatch(setCatalogItems([...catalogItems, ...data]));
+            setmoreItems(data.length > 0 && data.length % itemsToLoad === 0 ? true : false); // определяет показывать ли кнопку Ещё
+            const items = [...catalogItems, ...data]; // к уже загруженным добавляем новые 
+            //фильтруем от повторов
+            const newArray = items.filter((element, index, array) => {
+              return array.map(mapObj => mapObj['id']).indexOf(element['id']) === index;
+            });
+            dispatch(setCatalogItems(newArray));
             setIsLoading(false);
           })
           .catch(error => {
@@ -67,18 +80,19 @@ const Catalog = ({form}) => {
       };      
       
       const handleLoadMore = () => {
-        setOffset(offset + 6);
+        setOffset(offset + itemsToLoad);
       };
 
       const handleCategoryChange = (categoryID) => {
-        setOffset(6);
+        setOffset(itemsToLoad);
         setSelectedCategory(categoryID);
         dispatch(setCatalogItems([]))
       };
 
+console.log(catalogItems)
       return(
           <section className="catalog">
-            <h2 className="text-center">Каталог</h2>
+            <h2 className="text-center"><a name='top'>Каталог</a></h2>
             <ul className="catalog-categories nav justify-content-center">
               <li className="nav-item" key={all_id}>
                 <Link 
@@ -100,7 +114,7 @@ const Catalog = ({form}) => {
             </ul>
             {form ? <Search/> : null}
             {isLoading ? <Loader/>
-             : catalogItems.length === 0 ? <h3 className="text-center" style={{ marginTop: '100px' }}>Товары не найдены :( </h3> : <>
+             : catalogItems?.length === 0 ? <h3 className="text-center" style={{ marginTop: '100px' }}>Товары не найдены :( </h3> : <>
             <div className="row">
               {catalogItems?.map((item, index) => (
                  <div className="col-4" key={index}>
@@ -109,8 +123,10 @@ const Catalog = ({form}) => {
                      className="card-img-top img-fluid" alt={item.title}/>
                    <div className="card-body">
                      <p className="card-text">{item.title}</p>
-                     <p className="card-text">{item.price} руб.</p>
-                     <Link to={`/catalog/${item.id}.html`} onClick={() => {dispatch(showItem(item.id)); dispatch(setActiveTab(''))}} className="btn btn-outline-primary">Заказать</Link>
+                     <div className="card-bottom">
+                        <p className="card-text">{item.price} руб.</p>
+                        <Link to={`/catalog/${item.id}.html`} onClick={() => {dispatch(showItem(item.id)); dispatch(setActiveTab(''))}} className="btn btn-outline-primary">Заказать</Link>
+                     </div>
                    </div>
                  </div>
                </div>
@@ -123,7 +139,9 @@ const Catalog = ({form}) => {
                   Загрузить ещё
                 </button>
               </div>
-            )}</div></>}
+            )}
+            <p className="ancor"><a href="#top">Наверх</a></p>
+          </div></>}
         </section>
     )
 }

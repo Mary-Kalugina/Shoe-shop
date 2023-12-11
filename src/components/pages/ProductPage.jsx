@@ -10,57 +10,57 @@ import Loader from "./Loader";
 
 
 const ProductPage = () => {
-const [availableSizes, setSizes ] = useState([]);
-const [chosenSize, setChoise] = useState('');
-const [quantity, setQuantity] = useState(1);
-const [item, setItem] = useState({});
-const [isLoading, setIsLoading] = useState(false);
+    const [availableSizes, setSizes ] = useState([]);
+    const [chosenSize, setChoise] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [item, setItem] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
-const id = useSelector(state => state.toolkit.id);
-const cart = useSelector(state => state.toolkit.cart)
+    const id = useSelector(state => state.toolkit.id);
+    const cart = useSelector(state => state.toolkit.cart)
 
-const dispatch = useDispatch();
-
-
-useEffect(() => {
-    setIsLoading(true);
-    itemData(id)
-        .then((data) => {
-            setItem(data);
-            filterSizes(data);
-            setIsLoading(false);
-        })
-        .catch((error) => {
-            console.error('Произошла ошибка при загрузке данных:', error);
-        });
-}, []);
+    const dispatch = useDispatch();
 
 
-const filterSizes = (data) => {
-    const arr = data?.sizes;
-    const sizes = arr?.filter((i) => i.available);
-    setSizes(sizes);
-}
+    useEffect(() => {
+        setIsLoading(true);
+        itemData(id)
+            .then((data) => {
+                setItem(data);
+                filterSizes(data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка при загрузке данных:', error);
+            });
+    }, []);
 
-const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+
+    const filterSizes = (data) => {
+        const arr = data?.sizes;
+        const sizes = arr?.filter((i) => i.available);
+        setSizes(sizes);
     }
-  };
 
-  const increaseQuantity = () => {
-    if (quantity < 10) {
-      setQuantity(quantity + 1);
-    }
-  };
-
-  const putToStorage = (item) => {
-    console.log(quantity)
-    const data = {
-        ...item, 
-        quantity: quantity,
-        size: chosenSize
+    const decreaseQuantity = () => {
+        if (quantity > 1) {
+        setQuantity(quantity - 1);
+        }
     };
+
+    const increaseQuantity = () => {
+        if (quantity < 10) {
+        setQuantity(quantity + 1);
+        }
+    };
+
+    const putToStorage = (item) => {
+        console.log(quantity)
+        const data = {
+            ...item, 
+            quantity: quantity,
+            size: chosenSize
+        };
 
     if (cart) {
         let itemFound = false;

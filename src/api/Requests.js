@@ -11,10 +11,8 @@ export async function fetchData(url) {
     const data = await response.json();
 
     if (data.length > 0) {
-      console.log(data);
       return data;
     } else if (Object.keys(data).length > 0) {
-      console.log(data);
       return data;
     }
      else {
@@ -68,12 +66,10 @@ export default function postOrder(data) {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        console.log(1)
-        return response.json();
+        return response;
       })
       .then(data => {
         console.log('Order submitted successfully:', data);
-        console.log(2)
         resolve(data);
       })
       .catch(error => {

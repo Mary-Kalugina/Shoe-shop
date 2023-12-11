@@ -59,7 +59,7 @@ const Cart = () => {
         count: Number(item.quantity),
       })),
     };
-    // console.log(orderBody)
+    console.log(orderBody)
 
     postOrder(orderBody)
       .then(() => {
@@ -89,14 +89,14 @@ const Cart = () => {
               <tbody>
                 {isLoading 
                 ? (<tr>
-                      <td colSpan="7">
+                      <td colSpan="7" className="no-border">
                         <Loader/>
                       </td>
                     </tr>) 
                 : orderDone
-                ? (<h2 className="text-center">Заказ успешно оформлен!</h2>)
-                : error ? (<h2 className="text-center">Ошибка, попробуйте снова</h2>)
-                : cart.length === 0 ? (<h2 className="text-center">Корзина пуста</h2>)
+                ? (<tr><td className="no-border"><h2 className="text-center">Заказ успешно оформлен!</h2></td></tr>)
+                : error ? (<tr><td className="no-border"><h2 className="text-center">Ошибка, попробуйте снова</h2></td></tr>)
+                : cart.length === 0 ? (<tr><td className="no-border"><h2 className="text-center">Корзина пуста</h2></td></tr>)
                 : (
                   cart.map((item, index) => (
                     <tr key={item.id}>
@@ -111,20 +111,21 @@ const Cart = () => {
                       <td>
                         <button
                           className="btn btn-outline-danger btn-sm"
-                          onClick={() => deleteItem(item.id)}
-                        >
+                          onClick={() => deleteItem(item.id)}>
                           Удалить
                         </button>
                       </td>
                     </tr>
                   ))
                 )}
-                <tr>
-                <td colSpan="5" className="text-right">
-                    Общая стоимость
+                {cart.length !== 0 ? 
+                (<tr>
+                  <td colSpan="5" className="text-right">
+                      Общая стоимость
                   </td>
                   <td>{totalPrice}</td>
-                </tr>
+                </tr>)
+                : null}
               </tbody>
             </table>
           </section>
@@ -150,7 +151,7 @@ const Cart = () => {
                     />
                     <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
                   </div>
-                  <button type="submit" className="btn btn-outline-primary" disabled={!agreementChecked} onClick={sendOrder}>
+                  <button type="submit" className="btn btn-outline-primary" disabled={!agreementChecked} onClick={(e) => {e.preventDefault(); sendOrder()}}>
                     Оформить
                   </button>
                 </div>

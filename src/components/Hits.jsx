@@ -26,14 +26,16 @@ const Hits = () => {
             <h2 className="text-center">Хиты продаж!</h2>
              {topItems?.length > 0 ?  
                 <div className="row">
-                 {topItems?.map((item) => (<div className="col-4" key={item.id}>
+                 {topItems?.map((item) => (<div className="col-1" key={item.id}>
                         <div className="card">
                         <img src={item.images[0]}
                             className="card-img-top img-fluid" alt={item.title}/>
                         <div className="card-body">
                             <p className="card-text">{item.title}</p>
-                            <p className="card-text">{item.price}</p>
-                            <Link to={`/catalog/${item.id}.html`} onClick={() => {dispatch(showItem(item.id)); dispatch(setActiveTab(''))}} className="btn btn-outline-primary">Заказать</Link>
+                            <div className="card-bottom">
+                                <p className="card-text">{item.price} руб.</p>
+                                <Link to={`/catalog/${item.id}.html`} onClick={() => {dispatch(showItem(item.id)); dispatch(setActiveTab(''))}} className="btn btn-outline-primary">Заказать</Link>
+                            </div>
                         </div>
                         </div>
                     </div>))}

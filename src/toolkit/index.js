@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import toolkitSlice from "./toolkitSlice";
+import catalogSlice from "./catalogSlice";
 import {
   persistStore,
   persistReducer,
@@ -15,13 +16,15 @@ import storage from 'redux-persist/lib/storage'
 //redux-persist - для взаимодействи я с localStorege
 
 const rootReducer = combineReducers(
-   { toolkit: toolkitSlice } 
+   {toolkit: toolkitSlice,
+    catalog: catalogSlice,
+   } 
 );
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['items']
+  blacklist: ['catalog'] // этот слайс не добавляется в локалсторедж
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
