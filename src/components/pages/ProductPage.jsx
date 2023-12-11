@@ -140,7 +140,19 @@ const ProductPage = () => {
                                     </span>
                                     ) : null}</p>
                                 </div>
-                                {availableSizes?.length ? <Link to="/cart.html"><button disabled={!chosenSize} className="btn btn-danger btn-block btn-lg" onClick={() => {putToStorage(item); dispatch(setActiveTab(''))}}>В корзину</button></Link> : null}
+                                {availableSizes?.length ? 
+                                <Link to="/cart.html">
+                                    <button 
+                                        disabled={!chosenSize} 
+                                        className="btn btn-danger btn-block btn-lg" 
+                                        onClick={() => {
+                                                putToStorage(item);
+                                                dispatch(setActiveTab(''))
+                                            }}>
+                                        В корзину
+                                    </button>
+                                </Link>
+                                : null}
                             </div>
                         </div>
                     </section>}
