@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Link, redirect } from "react-router-dom";
 import {useDispatch, useSelector } from "react-redux";
+import Navigation from "./Navigation";
 import { setSearchValue, setActiveTab } from '../toolkit/toolkitSlice';
 
 const Header = () => {
@@ -8,7 +9,6 @@ const Header = () => {
     const dispatch = useDispatch();
     const searchText = useSelector(state => state.toolkit.searchText);
     const cart = useSelector(state => state.toolkit.cart);
-    const activeTab = useSelector(state => state.toolkit.activeTab);
     const itemsNumber = cart.length;
 
 // Следит за кликами по иконке поиска
@@ -27,12 +27,6 @@ const Header = () => {
         dispatch(setSearchValue(e.target.value));
     };
 
-// Переключает ссылки меню
-
-    const handleTabs = (tab) => {
-        dispatch(setActiveTab(tab))
-    }
-
 // Переключатель ссыки на Главную
 
     const handleTab = () => {
@@ -48,20 +42,7 @@ const Header = () => {
                 <Link className="navbar-brand" to="/" onClick={handleTab}>
                     <img src="./img/header-logo.png" alt="Bosa Noga" />
                 </Link>
-                <ul className="navbar-nav mr-auto">
-                    <li onClick={() => handleTabs('Главная')} className={`nav-item ${activeTab === 'Главная' ? ' nav-item-active' : ''}`}>
-                        <Link className="nav-link" to="/">Главная</Link>
-                    </li>
-                    <li onClick={() => handleTabs('Каталог')} className={`nav-item ${activeTab === 'Каталог' ? ' nav-item-active' : ''}`}>
-                        <Link className="nav-link" to="/catalog.html">Каталог</Link>
-                    </li>
-                    <li onClick={() => handleTabs('О магазине')} className={`nav-item ${activeTab === 'О магазине' ? ' nav-item-active' : ''}`}>
-                        <Link className="nav-link" to="/about.html">О магазине</Link>
-                    </li>
-                    <li onClick={() => handleTabs('Контакты')} className={`nav-item ${activeTab === 'Контакты' ? ' nav-item-active' : ''}`}>
-                        <Link className="nav-link" to="/contacts.html">Контакты</Link>
-                    </li>
-                </ul>
+                <Navigation />
             </div>
             <div className="header-controls-pics">
                 <form data-id="search-form" className={`header-controls-search-form form-inline ${searchVisible ? '' : 'invisible'}`} >
@@ -85,6 +66,10 @@ const Header = () => {
                 </Link>
             </div>
         </nav>
+    </div>
+    <div className="banner">
+        <img src="./img/banner.jpg" className="img-fluid" alt="К весне готовы!"/>
+        <h2 className="banner-header">К весне готовы!</h2>
     </div>
 </div>
 </header>

@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import Header from "../Header";
 import Footer from '../Footer';
-import Banner from "../Banner";
+
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { itemData } from "../../api/Requests";
 import { setCartToolkit, setActiveTab } from '../../toolkit/toolkitSlice';
-import Loader from "./Loader";
+import Loader from "../Loader";
 
 
 const ProductPage = () => {
@@ -23,17 +23,21 @@ const ProductPage = () => {
 
 
     useEffect(() => {
-        setIsLoading(true);
-        itemData(id)
-            .then((data) => {
-                setItem(data);
-                filterSizes(data);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error('Произошла ошибка при загрузке данных:', error);
-            });
-    }, []);
+        const fetchData = async () => {
+          try {
+            setIsLoading(true);
+            const data = await itemData(id);
+            setItem(data);
+            filterSizes(data);
+          } catch (error) {
+            console.error('Произошла ошибка при загрузке данных:', error);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+      
+        fetchData();
+    }, [id]);      
 
 
     const filterSizes = (data) => {
@@ -88,8 +92,7 @@ const ProductPage = () => {
     <main className="container">
         <div className="row product_page">
             <div className="col">
-               <Banner/>
-               {isLoading ? <Loader/> :
+                      {isLoading ? <Loader/> :
                 <section className="catalog-item">
                     <h2 className="text-center">{item.title}</h2>
                     <div className="row">

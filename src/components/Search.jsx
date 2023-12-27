@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchValue } from '../toolkit/toolkitSlice';
 import {setCatalogItems} from '../toolkit/catalogSlice'
@@ -7,6 +7,12 @@ import { find } from "../api/Requests";
 const Search = () => {
     const text = useSelector(state => state.toolkit.searchText);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+      if (text) {
+        handleSearch();
+      }
+    }, []);
     
     function debounce(func, delay) {
         let timerId;
@@ -26,8 +32,8 @@ const Search = () => {
           console.error('Ошибка при поиске товаров:', error);
         });;
       }
-
-      const delayedSearch = debounce(handleSearch, 300);
+      
+      const delayedSearch = debounce(handleSearch, 500);
 
       const handleChange = (e) => {
         const searchText = e.target.value;

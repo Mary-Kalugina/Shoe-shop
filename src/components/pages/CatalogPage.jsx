@@ -1,4 +1,3 @@
-import Banner from "../Banner"
 import React from "react";
 import Catalog from "../Catalog";
 import Header from "../Header";
@@ -11,7 +10,6 @@ const CatalogPage = () => {
       <main className="container">
         <div className="row">
           <div className="col">
-            <Banner/>
             <Catalog form={true}/>
           </div>
         </div>

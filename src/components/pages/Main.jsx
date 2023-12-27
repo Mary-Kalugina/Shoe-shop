@@ -1,6 +1,5 @@
 import React from "react";
 import Hits from "../Hits";
-import Banner from "../Banner";
 import Catalog from "../Catalog";
 import Footer from '../Footer';
 import Header from '../Header';
@@ -11,7 +10,6 @@ const Main = () => {
         <main className="container">
             <div className="row">
                 <div className="col">
-                    <Banner />
                     <Hits />
                     <Catalog form={false} />
                 </div>

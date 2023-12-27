@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Banner from "../Banner";
 import Header from "../Header";
 import Footer from "../Footer";
 
@@ -11,7 +10,6 @@ const Contacts = () => {
         <main className="container">
         <div className="row">
           <div className="col">
-            <Banner/>
             <section className="top-sales">
               <h2 className="text-center">Контакты</h2>
               <p>Наш головной офис расположен в г.Москва, по адресу: Варшавское шоссе, д. 17, бизнес-центр W Plaza.</p>

@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "../Banner";
+
 import Header from "../Header";
 import Footer from "../Footer";
 
@@ -9,8 +9,7 @@ const About = () => {
       <main className="container">
       <div className="row">
         <div className="col">
-          <Banner/>
-          <section className="top-sales">
+            <section className="top-sales">
             <h2 className="text-center">О магазине</h2>
             <p>
               В Интернете можно встретить немало магазинов, предлагающих аксессуары. Но именно к нам хочется
