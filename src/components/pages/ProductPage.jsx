@@ -98,7 +98,7 @@ const ProductPage = () => {
                     <div className="row">
                         <div className="col-5">
                             <img src={item?.images}
-                                className="img-fluid" alt={item?.title}/>
+                                className="card-img-top" alt={item?.title}/>
                         </div>
                         <div className="col-7">
                             <table className="table table-bordered">

@@ -12,10 +12,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-    <PersistGate loading={<Loader/>} persistor={persistor}>
+      <PersistGate loading={<Loader/>} persistor={persistor}>
         <App />
       </PersistGate>
-   </Provider>
+    </Provider>
   </BrowserRouter>
 );
 

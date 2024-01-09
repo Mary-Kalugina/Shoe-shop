@@ -5,7 +5,8 @@ import Footer from '../Footer';
 import Header from '../Header';
 
 const Main = () => {
-    return(<>
+    return(
+    <>
         <Header />
         <main className="container">
             <div className="row">
@@ -16,9 +17,7 @@ const Main = () => {
             </div>
         </main>
         <Footer /> 
-    </>
-            
-    )
+    </>)
 }
 
 export default Main;
