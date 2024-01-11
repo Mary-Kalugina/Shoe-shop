@@ -39,7 +39,6 @@ const ProductPage = () => {
         fetchData();
     }, [id]);      
 
-
     const filterSizes = (data) => {
         const arr = data?.sizes;
         const sizes = arr?.filter((i) => i.available);
@@ -87,48 +86,51 @@ const ProductPage = () => {
         dispatch(setCartToolkit([data]))
     }
   }
-    return(<>
-   <Header/>  
-    <main className="container">
-        <div className="row product_page">
-            <div className="col">
-                      {isLoading ? <Loader/> :
-                <section className="catalog-item">
-                    <h2 className="text-center">{item.title}</h2>
-                    <div className="row">
-                        <div className="col-5">
-                            <img src={item?.images}
-                                className="card-img-top" alt={item?.title}/>
-                        </div>
-                        <div className="col-7">
-                            <table className="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td>Артикул</td>
-                                        <td>{item?.sku}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Производитель</td>
-                                        <td>{item?.manufacturer}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Цвет</td>
-                                        <td>{item?.color}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Материалы</td>
-                                        <td>{item?.material}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Сезон</td>
-                                        <td>{item?.season}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Повод</td>
-                                        <td>{item?.reason}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+  return(
+        <>
+            <Header/>  
+            <main className="container">
+                <div className="row product_page">
+                    <div className="col">
+                            {isLoading ? <Loader/> :
+                        <section className="catalog-item">
+                            <h2 className="text-center">{item.title}</h2>
+                            <div className="row">
+                                <div className="col-5">
+                                    <img 
+                                        src={item?.images}
+                                        className="card-img-top" alt={item?.title}/>
+                                </div>
+                                <div className="col-7">
+                                <table className="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Артикул</td>
+                                            <td>{item?.sku}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Производитель</td>
+                                            <td>{item?.manufacturer}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Цвет</td>
+                                            <td>{item?.color}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Материалы</td>
+                                            <td>{item?.material}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Сезон</td>
+                                            <td>{item?.season}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Повод</td>
+                                            <td>{item?.reason}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                 <div className="text-center">
                                     <p>Размеры в наличии: {availableSizes?.length ? availableSizes?.map((i, index) => (
                                     <span onClick={() => setChoise(i.size)} key={index} className={`catalog-item-size ${chosenSize === i.size ? "selected" : ""}`}>
@@ -144,17 +146,17 @@ const ProductPage = () => {
                                     ) : null}</p>
                                 </div>
                                 {availableSizes?.length ? 
-                                <Link to="/cart.html">
-                                    <button 
-                                        disabled={!chosenSize} 
-                                        className="btn btn-danger btn-block btn-lg" 
-                                        onClick={() => {
-                                                putToStorage(item);
-                                                dispatch(setActiveTab(''))
-                                            }}>
-                                        В корзину
-                                    </button>
-                                </Link>
+                                    <Link to="/cart.html">
+                                        <button 
+                                            disabled={!chosenSize} 
+                                            className="btn btn-danger btn-block btn-lg" 
+                                            onClick={() => {
+                                                    putToStorage(item);
+                                                    dispatch(setActiveTab(''))
+                                                }}>
+                                            В корзину
+                                        </button>
+                                    </Link>
                                 : null}
                             </div>
                         </div>

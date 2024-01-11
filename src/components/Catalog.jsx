@@ -117,7 +117,7 @@ const Catalog = ({ form }) => {
             ))}
           </div>
           <div className="text-center">
-            {moreItems && (
+            {moreItems && catalogItems >= 6 && (
               <div className="text-center">
                 <button className="btn btn-outline-primary" onClick={() => handleLoadMore()}>
                   Загрузить ещё

@@ -3,6 +3,8 @@ import { Link, redirect } from "react-router-dom";
 import {useDispatch, useSelector } from "react-redux";
 import Navigation from "./Navigation";
 import { setSearchValue, setActiveTab } from '../toolkit/toolkitSlice';
+import banner from '../img/banner.jpg';
+import header from '../img/header-logo.png';
 
 const Header = () => {
     const [searchVisible, setSearchVisible] = useState(false);
@@ -40,7 +42,7 @@ const Header = () => {
                     <nav className="navbar navbar-expand-sm navbar-light bg-light">
                         <div className="collapase navbar-collapse" id="navbarMain">
                             <Link className="navbar-brand" to="/" onClick={handleTab}>
-                                <img src="./img/header-logo.png" alt="Bosa Noga" />
+                                <img src={header} alt="Bosa Noga" />
                             </Link>
                             <Navigation />
                         </div>
@@ -69,7 +71,7 @@ const Header = () => {
                 </div>
             </div>
             <div className="banner">
-                <img src="./img/banner.jpg" className="img-fluid" alt="К весне готовы!"/>
+                <img src={banner} className="img-fluid" alt="К весне готовы!"/>
                 <h2 className="banner-header">К весне готовы!</h2>
             </div>
         </header>

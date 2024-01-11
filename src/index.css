@@ -31,6 +31,11 @@ section {
 }
 
 /* Header */
+.container {
+  max-width: 1024px;
+  margin: auto;
+}
+
 .header-controls-pics {
   display: flex;
   justify-content: space-between;
@@ -167,11 +172,6 @@ section {
   }
 }
 
-/* Top Sales */
-.top-sales {
-  min-height: 300px;
-}
-
 /* Catalog */
 .catalog {
   min-height: 600px;
@@ -201,7 +201,7 @@ section {
 
 .catalog-search-form {
   display: block;
-  width: 50%;
+  width: 80%;
   height: 38px;
   padding: 0 20px;
   background: #FFFFFF;
@@ -319,13 +319,7 @@ section {
 }
 
 .col-4 {
-  flex: 0 0 20%;
-}
-
-@media screen and (max-width: 1100px) {
-  .col-4 {
-    flex: 0 0 32%;
-  }
+  flex: 0 0 32%;
 }
 
 .col-5 {
@@ -396,6 +390,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 0;
 }
 
 .navbar {
@@ -472,10 +467,6 @@ h2, .h2 {
 
 h5 {
   font-size: 1em;
-}
-
-.top-sales {
-  padding: 3em;
 }
 
 .img-fluid {
