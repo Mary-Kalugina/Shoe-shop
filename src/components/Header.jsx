@@ -35,44 +35,44 @@ const Header = () => {
 
     return (
         <header className="container">
-        <div className="row">
-        <div className="col">
-            <nav className="navbar navbar-expand-sm navbar-light bg-light">
-            <div className="collapase navbar-collapse" id="navbarMain">
-                <Link className="navbar-brand" to="/" onClick={handleTab}>
-                    <img src="./img/header-logo.png" alt="Bosa Noga" />
-                </Link>
-                <Navigation />
-            </div>
-            <div className="header-controls-pics">
-                <form data-id="search-form" className={`header-controls-search-form form-inline ${searchVisible ? '' : 'invisible'}`} >
-                    <input value={searchText} className="form-control" placeholder="Поиск" onChange={(e) => handleSearchInputChange(e)} />
-                </form>
-                <div 
-                    data-id="search-expander" 
-                    className="header-controls-pic header-controls-search"
-                    onClick={() => {
-                        if (searchVisible && searchText) {
-                            dispatch(setActiveTab('Каталог'));
-                            window.location.href = "/catalog.html";
-                        }
-                        handleSearchIconClick(); 
-                    }}>
+            <div className="row">
+                <div className="col">
+                    <nav className="navbar navbar-expand-sm navbar-light bg-light">
+                        <div className="collapase navbar-collapse" id="navbarMain">
+                            <Link className="navbar-brand" to="/" onClick={handleTab}>
+                                <img src="./img/header-logo.png" alt="Bosa Noga" />
+                            </Link>
+                            <Navigation />
+                        </div>
+                        <div className="header-controls-pics">
+                            <form data-id="search-form" className={`header-controls-search-form form-inline ${searchVisible ? '' : 'invisible'}`} >
+                                <input value={searchText} className="form-control" placeholder="Поиск" onChange={(e) => handleSearchInputChange(e)} />
+                            </form>
+                            <div 
+                                data-id="search-expander" 
+                                className="header-controls-pic header-controls-search"
+                                onClick={() => {
+                                    if (searchVisible && searchText) {
+                                        dispatch(setActiveTab('Каталог'));
+                                        window.location.href = "/catalog.html";
+                                    }
+                                    handleSearchIconClick(); 
+                                }}>
+                            </div>
+                            <Link to='/cart.html'><div className="header-controls-pic header-controls-cart" onClick={() => dispatch(setActiveTab(''))}>
+                                {itemsNumber ? <div className="header-controls-cart-full">{itemsNumber}</div> : null}
+                                <div className="header-controls-cart-menu"></div>
+                                </div>
+                            </Link>
+                        </div>
+                    </nav>
                 </div>
-                <Link to='/cart.html'><div className="header-controls-pic header-controls-cart" onClick={() => dispatch(setActiveTab(''))}>
-                    {itemsNumber ? <div className="header-controls-cart-full">{itemsNumber}</div> : null}
-                    <div className="header-controls-cart-menu"></div>
-                    </div>
-                </Link>
             </div>
-        </nav>
-    </div>
-    <div className="banner">
-        <img src="./img/banner.jpg" className="img-fluid" alt="К весне готовы!"/>
-        <h2 className="banner-header">К весне готовы!</h2>
-    </div>
-</div>
-</header>
+            <div className="banner">
+                <img src="./img/banner.jpg" className="img-fluid" alt="К весне готовы!"/>
+                <h2 className="banner-header">К весне готовы!</h2>
+            </div>
+        </header>
     )
 }
 

@@ -102,6 +102,7 @@ section {
 .banner {
   position: relative;
   min-height: 240px;
+  width: 100%;
 }
 
 .banner-header {
