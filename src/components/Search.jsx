@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchValue } from '../toolkit/toolkitSlice';
-import {setCatalogItems} from '../toolkit/catalogSlice'
+import { setCatalogItems } from '../toolkit/catalogSlice'
 import { find } from "../api/Requests";
 
 const Search = () => {
@@ -13,6 +13,10 @@ const Search = () => {
         handleSearch();
       }
     }, []);
+
+    useEffect(() => {
+      delayedSearch();
+    }, [text])
     
     function debounce(func, delay) {
         let timerId;
@@ -38,7 +42,6 @@ const Search = () => {
       const handleChange = (e) => {
         const searchText = e.target.value;
         dispatch(setSearchValue(searchText));
-        delayedSearch(searchText);
       };
 
       const handleSubmit = (e) => {

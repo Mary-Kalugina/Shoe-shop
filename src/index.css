@@ -221,6 +221,10 @@ section {
   background-color: transparent;
 }
 
+.center {
+  margin: auto;
+}
+
 /* Footer */
 .footer {
   padding: 0 25px;
@@ -311,7 +315,7 @@ section {
 .card-img-top {
   max-height: 375px;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .col-1 {
@@ -490,6 +494,15 @@ th, td {
   color: white;
   border: none;
   border-radius: 5px;
+}
+
+.btn-disable {
+  width: 100%;
+  padding: 7px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px; 
 }
 
 .order_card {

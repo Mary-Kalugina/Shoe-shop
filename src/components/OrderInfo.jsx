@@ -3,7 +3,18 @@ import { Link } from "react-router-dom";
 
 const OrderInfo = ({ cart, totalPrice, deleteItem }) => {
   return (
-    <table>
+    <table className="center">
+      <thead>
+        <tr>
+          <td>№</td>
+          <td>Название</td>
+          <td>Размер</td>
+          <td>Кол-во</td>
+          <td>Цена</td>
+          <td>Итого</td>
+          <td>Действия</td>
+        </tr>
+      </thead>
       <tbody>
        {cart.map((item, index) => (
           <tr key={item.id}>
@@ -11,10 +22,10 @@ const OrderInfo = ({ cart, totalPrice, deleteItem }) => {
             <td>
               <Link to={`/products/${item.id}.html`}>{item.title}</Link>
             </td>
-            <td>{item.size} размер</td>
-            <td>{item.quantity} кол-во</td>
+            <td>{item.size}</td>
+            <td>{item.quantity}</td>
             <td>{item.price}</td>
-            <td>{item.price * item.quantity} итого</td>
+            <td>{item.price * item.quantity}</td>
             <td>
               <button
                 className="btn btn-outline-danger btn-sm"

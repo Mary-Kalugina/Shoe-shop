@@ -86,7 +86,7 @@ const ProductPage = () => {
         dispatch(setCartToolkit([data]))
     }
   }
-
+  
   return(
         <>
             <Header/>  
@@ -99,7 +99,7 @@ const ProductPage = () => {
                             <div className="row">
                                 <div className="col-5">
                                     <img 
-                                        src={item?.images}
+                                        src={item?.images?.[0]}
                                         className="card-img-top" alt={item?.title}/>
                                 </div>
                                 <div className="col-7">
@@ -149,7 +149,7 @@ const ProductPage = () => {
                                     <Link to="/cart.html">
                                         <button 
                                             disabled={!chosenSize} 
-                                            className="btn btn-danger btn-block btn-lg" 
+                                            className={`btn ${chosenSize ? 'btn-danger': 'btn-disable'}`}
                                             onClick={() => {
                                                     putToStorage(item);
                                                     dispatch(setActiveTab(''))
